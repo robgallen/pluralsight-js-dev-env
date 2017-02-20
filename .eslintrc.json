@@ -1,0 +1,40 @@
+{
+	// 1. Disable any linting built-in to your editor
+	// 2. Remove .eslintrc file in your user directory, if it exists
+	"root": true,
+	"extends":[
+		"eslint:recommended",
+		"plugin:import/errors",
+		"plugin:import/warnings"
+	],
+	"parserOptions": {
+		"ecmaVersion": 7, // es2016
+		"sourceType": "module"
+	},
+	"env": {
+		"browser": true,
+		"node": true,
+		"mocha": true
+	},
+	"rules": {
+		// best practice rules
+		"curly": ["warn", "all"],
+		"default-case": "warn",
+		"eqeqeq": "warn",
+		"guard-for-in": "error",
+		"no-alert": "error",
+		"no-eval": "error",
+		"no-multi-spaces": "warn",
+		"no-script-url": "error",
+		"radix": "warn",
+		// stylistic rules
+		"array-bracket-spacing": ["warn", "never"],
+		"brace-style": "warn",
+		"comma-dangle": "error",
+		"comma-spacing": "warn",
+		"comma-style": "warn",
+		"indent": ["warn", "tab"],
+		"semi": ["error", "always"],
+		"quotes": ["warn", "double"]
+	}
+}
