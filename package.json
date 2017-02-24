@@ -4,15 +4,23 @@
   "description": "JavaScript development environment Pluralsight course by Cory House",
   "scripts": {
     "prestart": "babel-node build/startMessage.js",
-    "start": "npm-run-all --parallel security-check open:src lint:watch",
-    "open:src": "babel-node build/serve.js",
+    "start": "npm-run-all --parallel security-check open:src lint:watch start-mockapi",
     "lint": "esw webpack.config.* src build --color; exit 0;",
     "lint:watch": "esw --watch webpack.config.* src build --color; exit 0;",
-    "security-check": "nsp check"
+    "open:src": "babel-node build/srcServer.js",
+    "open:dist": "babel-node build/distServer.js",
+    "security-check": "nsp check",
+    "prestart-mockapi": "babel-node build/generateMockData",
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001",
+    "clean-dist": "rimraf ./dist && mkdir dist",
+    "prebuild": "npm-run-all clean-dist lint",
+    "build": "babel-node build/build.js",
+    "postbuild": "babel-node build/distServer.js"
   },
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "promise-polyfill": "6.0.2",
     "whatwg-fetch": "2.0.2"
   },
   "devDependencies": {
@@ -31,7 +39,7 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-watch": "3.0.0",
     "express": "4.14.1",
-    "extract-text-webpack-plugin": "1.0.1",
+    "extract-text-webpack-plugin": "2.0.0-rc.3",
     "html-webpack-plugin": "2.28.0",
     "jsdom": "9.11.0",
     "json-schema-faker": "0.4.0",

@@ -1,11 +1,36 @@
 import "whatwg-fetch";
+import Promise from "promise-polyfill";
+import getBaseUrl from "./baseUrl";
+
+// for IE
+if (!window.Promise) {
+	window.Promise = Promise;
+}
+
+const baseUrl = getBaseUrl();
+
+// public methods
 
 export function getUsers() {
 	return get("users");
 }
 
+export function deleteUser(id) {
+	return del(`users/${id}`);
+}
+
+// private methods
+
 function get(url) {
-	return fetch(url).then(onSuccess, onError);
+	return fetch(baseUrl + url).then(onSuccess, onError);
+}
+
+function del(url) {
+	const request = new Request(baseUrl + url, {
+		method: "DELETE"
+	});
+
+	return fetch(request).then(onSuccess, onError);
 }
 
 function onSuccess(response) {
