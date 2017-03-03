@@ -8,7 +8,7 @@ export default {
 	resolve: {
 		extensions: ["*", ".js", ".jsx", ".json"]
 	},
-	devtool: "source-map",
+	devtool: "#source-map",
 	entry: {
 		vendor: path.resolve(__dirname, "src/vendor"),
 		main: path.resolve(__dirname, "src/index")
@@ -20,6 +20,9 @@ export default {
 		filename: "[name].[chunkhash].js"
 	},
 	plugins: [
+		// moment locales - welsh and english only
+		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^en-gb|^cy/),
+
 		// Global loader configuration
 		new webpack.LoaderOptionsPlugin({
 			minimize: true,
@@ -67,7 +70,9 @@ export default {
 		}),
 
 		// Minify JS
-		new webpack.optimize.UglifyJsPlugin()
+		new webpack.optimize.UglifyJsPlugin({
+			sourceMap: true
+		})
 	],
 	module: {
 		loaders: [

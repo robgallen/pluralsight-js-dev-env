@@ -1,6 +1,7 @@
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap";
+import moment from "moment";
 
 import {getUsers, deleteUser} from "./api/userApi";
 
@@ -32,3 +33,8 @@ getUsers().then(result => {
 		};
 	});
 });
+
+// moment
+moment.locale("en-gb");
+let m = moment().format("LLLL");
+document.getElementById("today").innerHTML = m;

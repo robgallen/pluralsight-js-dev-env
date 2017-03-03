@@ -14,5 +14,7 @@
 
 /* eslint-disable no-unused-vars */
 import bootstrap from "bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
 import fetch from "whatwg-fetch";
 import jquery from "jquery";
+import moment from "moment";
