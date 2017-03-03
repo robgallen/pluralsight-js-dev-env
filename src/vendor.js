@@ -13,4 +13,6 @@
  */
 
 /* eslint-disable no-unused-vars */
+import bootstrap from "bootstrap";
 import fetch from "whatwg-fetch";
+import jquery from "jquery";

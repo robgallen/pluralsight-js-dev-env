@@ -2,16 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <% if (htmlWebpackPlugin.options.fontAwesomeToken) { %>
+    <script src="https://use.fontawesome.com/<%= htmlWebpackPlugin.options.fontAwesomeToken %>.js"></script>
+    <% } %>
 </head>
 <body>
     <h1>Users list</h1>
-    <table>
+    <table class="table table-striped">
     <thead>
-        <th>&nbsp;</th>
         <th>Id</th>
         <th>First name</th>
         <th>Last name</th>
         <th>Email</th>
+        <th>&nbsp;</th>
     </thead>
     <tbody id="users"></tbody>
     </table>

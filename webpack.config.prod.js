@@ -39,6 +39,12 @@ export default {
 			name: "vendor"
 		}),
 
+		new webpack.ProvidePlugin({
+			jQuery: "jquery",
+			$: "jquery",
+			jquery: "jquery"
+		}),
+
 		// Create HTML file that includes reference to bundled JS.
 		new HtmlWebpackPlugin({
 			template: "src/index.html",
@@ -54,10 +60,10 @@ export default {
 				minifyCSS: true,
 				minifyURLs: true
 			},
-			inject: true
+			inject: true,
 			// Properties you define here are available in index.html
 			// using htmlWebpackPlugin.options.varName
-			//trackJSToken: "INSERT YOUR TOKEN HERE"
+			fontAwesomeToken: "b9377f6d6d"
 		}),
 
 		// Minify JS
@@ -66,7 +72,11 @@ export default {
 	module: {
 		loaders: [
 			{ test: /\.js$/, exclude: /node_modules/, loaders: ["babel-loader"] },
-			{ test: /\.css$/, loader: ExtractTextPlugin.extract("css-loader?sourceMap") }
+			{ test: /\.css$/, loader: ExtractTextPlugin.extract("css-loader?sourceMap") },
+			{ test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" },
+			{ test: /\.(woff|woff2)$/, loader: "url-loader?prefix=font/&limit=5000" },
+			{ test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream" },
+			{ test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml" }
 		]
 	}
 };
