@@ -1,4 +1,4 @@
-import "./index.css";
+import "./index.scss";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap";
 import moment from "moment";

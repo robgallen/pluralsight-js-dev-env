@@ -1,8 +1,9 @@
 import webpack from "webpack";
-import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import WebpackMd5Hash from "webpack-md5-hash";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
+import WebpackMd5Hash from "webpack-md5-hash";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import autoprefixer from "autoprefixer";
+import path from "path";
 
 export default {
 	resolve: {
@@ -23,25 +24,19 @@ export default {
 		// moment locales - welsh and english only
 		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^en-gb|^cy/),
 
-		// Global loader configuration
-		new webpack.LoaderOptionsPlugin({
-			minimize: true,
-			debug: false,
-			noInfo: true // set to false to see a list of every file being bundled.
-		}),
+		// Hash the files using MD5 so that their names change when the content changes.
+		new WebpackMd5Hash(),
 
 		// Generate an external css file with a hash in the filename
 		new ExtractTextPlugin("[name].[contenthash].css"),
 
-		// Hash the files using MD5 so that their names change when the content changes.
-		new WebpackMd5Hash(),
-
 		// Use CommonsChunkPlugin to create a separate bundle
-		// of vendor libraries so that they're cached separately.
+		// of vendor libraries so that they"re cached separately.
 		new webpack.optimize.CommonsChunkPlugin({
 			name: "vendor"
 		}),
 
+		// add jquery aliases for easier import usage
 		new webpack.ProvidePlugin({
 			jQuery: "jquery",
 			$: "jquery",
@@ -72,12 +67,26 @@ export default {
 		// Minify JS
 		new webpack.optimize.UglifyJsPlugin({
 			sourceMap: true
+		}),
+
+		// general loader options
+		new webpack.LoaderOptionsPlugin({
+			minimize: true,
+			debug: false,
+			noInfo: true, // set to false to see a list of every file being bundled.
+			options: {
+				sassLoader: {
+					includePaths: [path.resolve(__dirname, "src", "scss")]
+				},
+				context: "/",
+				postcss: () => [autoprefixer]
+			}
 		})
 	],
 	module: {
 		loaders: [
 			{ test: /\.js$/, exclude: /node_modules/, loaders: ["babel-loader"] },
-			{ test: /\.css$/, loader: ExtractTextPlugin.extract("css-loader?sourceMap") },
+			{ test: /\.css|\.scss$/, loader: ExtractTextPlugin.extract("css-loader?sourceMap!postcss-loader!sass-loader?sourceMap") },
 			{ test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" },
 			{ test: /\.(woff|woff2)$/, loader: "url-loader?prefix=font/&limit=5000" },
 			{ test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream" },
